@@ -25,8 +25,12 @@ from threading import Thread
 MODEL_PATH = os.environ.get('MODEL_PATH', 'THUDM/chatglm3-6b')
 TOKENIZER_PATH = os.environ.get("TOKENIZER_PATH", MODEL_PATH)
 
+MODEL_PATH = "/root/autodl-tmp/workspace/chatglm3-6b"
+TOKENIZER_PATH = MODEL_PATH
+
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH, trust_remote_code=True)
 model = AutoModel.from_pretrained(MODEL_PATH, trust_remote_code=True, device_map="auto").eval()
+# model = AutoModel.from_pretrained(MODEL_PATH, trust_remote_code=True).half().cuda()
 
 
 class StopOnTokens(StoppingCriteria):
@@ -134,4 +138,4 @@ with gr.Blocks() as demo:
     emptyBtn.click(lambda: None, None, chatbot, queue=False)
 
 demo.queue()
-demo.launch(server_name="127.0.0.1", server_port=8501, inbrowser=True, share=False)
+demo.launch(server_name="0.0.0.0", server_port=6006, inbrowser=True, share=False)
